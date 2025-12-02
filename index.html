@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>For Farah Jee</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23ff6fb5'/%3E%3Ctext x='50' y='57' font-size='52' text-anchor='middle' font-family='system-ui,Segoe UI,Roboto' fill='white'%3EF%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#FFF7FB;
+    --accent:#ff6fb5;
+    --accent-2:#ffb3d9;
+    --text:#372f37;
+    --shadow:0 14px 40px rgba(0,0,0,0.08);
+    --confetti-1:#ff6fb5;
+    --confetti-2:#ffd166;
+    --confetti-3:#5eead4;
+    --confetti-4:#b39cff;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Nunito,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:radial-gradient(circle at 10% 10%, #fff0f6, transparent 10%),var(--bg);color:var(--text)}
+  .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px}
+  .card{width:100%;max-width:980px;background:linear-gradient(180deg,#fff,#fffefc);border-radius:18px;padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+  .avatar{width:76px;height:76px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-size:30px;color:white;font-weight:800;flex-shrink:0}
+  h1{margin:0;font-size:22px}
+  h1 small{display:block;font-size:14px;color:#6b6b6b;margin-top:4px}
+  .main{display:flex;gap:16px;align-items:flex-start}
+  .left{flex:1;border-radius:12px;padding:12px;background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,250,252,0.95));min-height:360px;display:flex;flex-direction:column;align-items:center}
+  .photo{width:100%;height:260px;border-radius:12px;overflow:hidden;background:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+  .photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .message{padding:14px;border-radius:12px;background:linear-gradient(180deg,#fff,#fff7fc);font-weight:700;color:var(--accent);text-align:center;font-size:18px;min-height:110px;display:flex;align-items:center;justify-content:center}
+  .right{width:300px;min-width:220px;display:flex;flex-direction:column;gap:10px}
+  .btn{background:linear-gradient(180deg,var(--accent),#ff4fa0);color:#fff;padding:12px;border-radius:12px;border:none;font-weight:800;cursor:pointer}
+  .small{font-size:14px;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,0.7);border:1px solid rgba(0,0,0,0.04);cursor:pointer}
+  .hearts{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .heart{position:absolute;font-size:26px;animation:floatUp linear infinite}
+  @keyframes floatUp{0%{transform:translateY(36vh) scale(.85) rotate(0deg);opacity:0}10%{opacity:1}100%{transform:translateY(-28vh) scale(1.05) rotate(40deg);opacity:0}}
+  .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,0.24),rgba(0,0,0,0.45));z-index:2200;visibility:hidden;opacity:0;transition:opacity .28s}
+  .modal.show{visibility:visible;opacity:1}
+  .modal-card{width:94%;max-width:680px;padding:20px;border-radius:12px;background:#fff;text-align:center}
+  canvas{position:fixed;inset:0;pointer-events:none;z-index:1500}
+  footer{text-align:center;color:#8b8b8b;margin-top:12px;font-size:13px}
+  .theme-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
+  @media (max-width:880px){.main{flex-direction:column}.photo{height:200px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="hearts" id="hearts"></div>
+    <header>
+      <div class="avatar" id="avatar">F</div>
+      <div>
+        <h1>For Farah Jee <small>Thank you for everything — press "Open Gift" to see a little surprise</small></h1>
+      </div>
+    </header>
+
+    <div class="main">
+      <div class="left">
+        <div class="photo"><img src="farah.jpg" alt="Farah Jee"></div>
+
+        <div class="message" id="message">Click the gift and a little surprise will appear ✨</div>
+
+        <footer>Made especially for you.</footer>
+      </div>
+
+      <div class="right" aria-hidden="true">
+        <div style="padding:12px;border-radius:12px;background:linear-gradient(180deg,#fff,#fffaf6)">
+          <button id="openGift" class="btn" style="width:100%;">Open Gift 🎁</button>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <button id="heartsBtn" class="small">Toggle Hearts</button>
+            <button id="confettiBtn" class="small">Confetti</button>
+          </div>
+        </div>
+
+        <div style="padding:12px;border-radius:12px;background:linear-gradient(180deg,#fff,#fffaf6);font-size:13px;color:#444">
+          <strong>Style</strong>
+          <div class="theme-grid">
+            <button class="small themeBtn" data-a="#ff6fb5" data-b="#ffb3d9">Pink</button>
+            <button class="small themeBtn" data-a="#3ee0b3" data-b="#b8fff0">Mint</button>
+            <button class="small themeBtn" data-a="#8e6bff" data-b="#cdb8ff">Lavender</button>
+            <button class="small themeBtn" data-a="#ff9f7b" data-b="#ffd1c7">Peach</button>
+            <button class="small themeBtn" data-a="#0aa3ff" data-b="#9fe7ff">Ocean</button>
+            <button class="small themeBtn" data-a="#ff6f59" data-b="#ffd36b">Sunset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-card">
+    <button id="close" style="position:absolute;right:12px;top:8px;border:none;background:transparent;font-size:18px;cursor:pointer">✕</button>
+    <div style="font-size:22px;font-weight:800;color:var(--accent)">A little surprise ✨</div>
+    <div id="typed" style="min-height:72px;margin-top:12px;font-weight:700;color:var(--accent)"></div>
+    <div style="margin-top:12px"><button id="again" class="btn">Celebrate again ✨</button></div>
+  </div>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<script>
+// hearts
+const heartsContainer = document.getElementById('hearts');
+function spawnHeart(){
+  const d = document.createElement('div');
+  d.className='heart'; d.textContent='💖';
+  d.style.left = (8 + Math.random()*84)+'%';
+  d.style.fontSize = (14 + Math.random()*30)+'px';
+  d.style.animationDuration = (6 + Math.random()*8)+'s';
+  const colors=['#ff6fb5','#ff8ac4','#ffc0dd','#ffb3d9']; 
+  d.style.color = colors[Math.floor(Math.random()*colors.length)];
+  heartsContainer.appendChild(d);
+  setTimeout(()=> d.remove(),14000);
+}
+let heartsOn = true;
+let heartsInterval = setInterval(spawnHeart,520);
+
+// confetti
+const confettiCanvas = document.getElementById('confetti');
+const ctx = confettiCanvas.getContext('2d');
+function resize(){ confettiCanvas.width = innerWidth; confettiCanvas.height = innerHeight; }
+window.addEventListener('resize', resize); resize();
+let confettiPieces = [];
+function createConfetti(n=90){
+  confettiPieces=[];
+  const s = getComputedStyle(document.documentElement);
+  const cols = [
+    s.getPropertyValue('--confetti-1').trim(),
+    s.getPropertyValue('--confetti-2').trim(),
+    s.getPropertyValue('--confetti-3').trim(),
+    s.getPropertyValue('--confetti-4').trim()
+  ];
+  for(let i=0;i<n;i++){
+    confettiPieces.push({
+      x:Math.random()*confettiCanvas.width,
+      y:-Math.random()*confettiCanvas.height,
+      w:6+Math.random()*8,
+      h:6+Math.random()*8,
+      vx:(Math.random()-0.5)*2.5,
+      vy:2+Math.random()*4,
+      rot:Math.random()*360,
+      rotv:(Math.random()-0.5)*6,
+      color:cols[Math.floor(Math.random()*cols.length)]
+    });
+  }
+}
+let confettiRAF=null;
+function runConfetti(ms=2400){
+  createConfetti(110);
+  const start=performance.now();
+  if(confettiRAF) cancelAnimationFrame(confettiRAF);
+  function frame(t){
+    const elapsed=t-start;
+    ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+    confettiPieces.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.vy+=0.02;
+      ctx.save();
+      ctx.translate(p.x,p.y);
+      p.rot+=p.rotv;
+      ctx.rotate(p.rot*Math.PI/180);
+      ctx.fillStyle=p.color;
+      ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      ctx.restore();
+    });
+    confettiPieces = confettiPieces.filter(p=>p.y < confettiCanvas.height+60);
+    if(elapsed < ms) confettiRAF = requestAnimationFrame(frame);
+    else ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+  }
+  confettiRAF = requestAnimationFrame(frame);
+}
+
+
+// ✅ NEW APPRECIATION MESSAGES YOU ASKED FOR
+const typedMessages = [
+  "Farah Jee, you deserve appreciation far more than words can ever express.",
+  "Your genuineness, your softness, and your effort never go unnoticed.",
+  "Thank you for being someone whose presence genuinely makes life feel lighter and reminds me how valued you truly are."
+];
+
+function typePhrasesManual(arr, idx=0){
+  if(idx>=arr.length) return;
+  typed.textContent='';
+  let i=0;
+  const text = arr[idx];
+  (function step(){
+    if(i<=text.length){
+      typed.textContent = text.slice(0,i) + (i%2? '|':'');
+      i++;
+      setTimeout(step, 36 + Math.random()*40);
+    } else {
+      setTimeout(()=> typePhrasesManual(arr, idx+1), 700);
+    }
+  })();
+}
+
+const modal = document.getElementById('modal');
+const openGift = document.getElementById('openGift');
+const typed = document.getElementById('typed');
+const closeBtn = document.getElementById('close');
+const again = document.getElementById('again');
+const avatar = document.getElementById('avatar');
+
+openGift.addEventListener('click', ()=>{
+  modal.classList.add('show');
+  modal.style.visibility='visible';
+  typePhrasesManual(typedMessages);
+  runConfetti(2200);
+});
+
+closeBtn.addEventListener('click', ()=>{ modal.classList.remove('show'); modal.style.visibility='hidden'; });
+again.addEventListener('click', ()=> runConfetti(2200));
+
+// theme buttons
+document.querySelectorAll('.themeBtn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const a = btn.getAttribute('data-a');
+    const b = btn.getAttribute('data-b');
+    document.documentElement.style.setProperty('--accent', a);
+    document.documentElement.style.setProperty('--accent-2', b);
+    document.documentElement.style.setProperty('--confetti-1', a);
+    document.documentElement.style.setProperty('--confetti-2', b);
+    document.documentElement.style.setProperty('--confetti-3', '#ffffff');
+    document.documentElement.style.setProperty('--confetti-4', '#f0f0f0');
+    avatar.style.background = `linear-gradient(135deg, ${a}, ${b})`;
+  });
+});
+
+// hearts toggle
+document.getElementById('heartsBtn').addEventListener('click', ()=>{
+  if(heartsOn){
+    clearInterval(heartsInterval);
+    heartsOn=false;
+    heartsBtn.textContent='Show Hearts';
+  } else {
+    heartsInterval = setInterval(spawnHeart,520);
+    heartsOn=true;
+    heartsBtn.textContent='Hide Hearts';
+  }
+});
+
+// confetti button
+document.getElementById('confettiBtn').addEventListener('click', ()=> runConfetti(2200));
+
+// Escape close
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ modal.classList.remove('show'); modal.style.visibility='hidden'; } });
+</script>
+</body>
+</html>
